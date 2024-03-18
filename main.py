@@ -9,25 +9,19 @@ import random
 
 # pygame setup
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
+
+screen = pygame.display.set_mode((800, 800))
+
 clock = pygame.time.Clock()
+
 running = True
-dt = 0
+playing = False
 
+states = [cellState.DEAD]*(GRID_SIZE*GRID_SIZE)
+causes = [None]*(GRID_SIZE*GRID_SIZE)
 
-player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
-
-states = []
-
-for i in range(0,GRID_SIZE*GRID_SIZE):
-    
-    k = random.random()
-    print(k)
-    if k<=0.25:
-        states.append(cellState.ALIVE)
-    else:
-        states.append(cellState.DEAD)
-
+death_count = {i:1 for i in range(0,GRID_SIZE*GRID_SIZE)}
+gen_count = 1
 
 while running:
     
@@ -35,16 +29,31 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+        if event.type == pygame.KEYDOWN:
+            
+            # pauses the game
+            if event.key == pygame.K_SPACE:
+                playing = not playing
+                
+            # clears the grid 
+            if event.key == pygame.K_c:
+                states = [cellState.DEAD]*(GRID_SIZE*GRID_SIZE)
+                playing = False
+                
+            # generates random elements
+            if event.key == pygame.K_g:
+                states = utils.gen()
+                playing = False
+            
+    
     screen.fill("black")
 
-    utils.drawGrid(screen, INITIAL_X, INITIAL_Y, GRID_SIZE, states)
-    # flip() the display to put your work on screen
-    pygame.display.flip()
-
-    time.sleep(1)
-    # limits FPS to 60
-    # dt is delta time in seconds since last frame, used for framerate-
-    # independent physics.
-    dt = clock.tick(60) / 1000
+    utils.drawGrid(screen, INITIAL_X, INITIAL_Y, states)
+    
+    if playing:
+        states, causes, death_count, gen_count= utils.adjust_grid(states, causes, death_count, gen_count)
+    
+    time.sleep(0.5)
+    pygame.display.update()
 
 pygame.quit()

@@ -4,7 +4,7 @@ An implementation of conway's game of life on a hexagonal grid.
 
 ## Table of Contents
 
-- [Rules](#rules]
+- [Rules](#rules)
 
 ## Rules
 

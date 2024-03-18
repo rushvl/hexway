@@ -3,8 +3,8 @@ from enum import Enum
 
 WIDTH, HEIGHT = 800, 800
 HEX_RADIUS = 20
-INITIAL_X = 100
-INITIAL_Y = 100
+INITIAL_X = 0
+INITIAL_Y = 0
 GRID_SIZE = 15
 
 OFFSET_Y = 1.7*HEX_RADIUS
@@ -21,9 +21,9 @@ class cellState(Enum):
     ALIVE = 0
     DEAD = 1
     SELECTED = 2
-
-class hexagon:
-    
-    def __init__(self, state) -> None:
-        self.state = state
         
+class causeOfDeath(Enum):
+    OVER = 0
+    UNDER = 1
+    
+    

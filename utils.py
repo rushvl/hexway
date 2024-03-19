@@ -50,7 +50,7 @@ def gen():
     for i in range(0,GRID_SIZE*GRID_SIZE):
         
         k = random.random()
-        if k<=0.25:
+        if k<=DENSITY:
             states.append(cellState.ALIVE)
         else:
             states.append(cellState.DEAD)
@@ -122,12 +122,12 @@ def adjust_grid(states: list, causes:list, dead_count:dict, gen_count):
             new_states[i] = cellState.ALIVE
             new_death_count[i] = 1
             
-        # if states[i] == cellState.DEAD and new_death_count[i] == 6:
-        #     new_states[i] = cellState.ALIVE
-        #     new_death_count[i] = 1         
+        if states[i] == cellState.DEAD and new_death_count[i] == 6 and causes[i]!=None:
+            new_states[i] = cellState.ALIVE
+            new_death_count[i] = 1         
             
-        # if states[i] == cellState.DEAD:
-        #     new_death_count[i] = new_death_count[i]+1
+        if states[i] == cellState.DEAD:
+            new_death_count[i] = new_death_count[i]+1
         
     return new_states, new_causes, new_death_count, gen_count
             

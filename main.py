@@ -1,10 +1,8 @@
 # Example file showing a circle moving on screen
 import time
 import pygame
-import math
 from constants import *
 import utils
-import random
 
 
 # pygame setup
